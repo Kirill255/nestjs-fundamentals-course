@@ -44,8 +44,11 @@ export class CoffeesController {
    */
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getOneCoffee(@Param('id') id: string) {
-    const coffee = await this.coffeesService.getOneCoffee(id);
+  async getOneCoffee(@Param('id') id: number) {
+    // без transform: true в id приходит строка, но мы указали, что id должен быть числом
+    // с transform: true, id автоматически трансформируется в ожидаемый нами тип
+    console.log(typeof id);
+    const coffee = await this.coffeesService.getOneCoffee(String(id));
     return {
       handler: 'getOneCoffee',
       data: coffee,
@@ -67,6 +70,9 @@ export class CoffeesController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async createCoffee(@Body() createCoffeeDto: CreateCoffeeDto) {
+    // без transform: true в ValidationPipe, объект createCoffeeDto похож на CreateCoffeeDto, но не является его экземпляром
+    // с transform: true, объект createCoffeeDto полностью сообветствует типу CreateCoffeeDto и является его экземпляром
+    console.log(createCoffeeDto instanceof CreateCoffeeDto);
     const newCoffee = await this.coffeesService.createCoffee(createCoffeeDto);
     return {
       handler: 'createCoffee',

@@ -8,6 +8,7 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true, // если с фронта передаются поля невключенные в описание типа, они не попадут в условный req.body(например, createCoffeeDto) в контроллере
       forbidNonWhitelisted: true, // если с фронта передаются поля невключенные в описание типа будет выбрасываться ошибка
+      transform: true, // автоматически трансформирует входящие данные в тип данных описанный в котроллере
     }),
   );
   await app.listen(3000);

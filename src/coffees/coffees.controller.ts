@@ -12,6 +12,8 @@ import {
   Res,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
+import { CreateCoffeeDto } from './dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -64,12 +66,12 @@ export class CoffeesController {
    */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async createCoffee(@Body() body) {
-    const newCoffee = await this.coffeesService.createCoffee(body);
+  async createCoffee(@Body() createCoffeeDto: CreateCoffeeDto) {
+    const newCoffee = await this.coffeesService.createCoffee(createCoffeeDto);
     return {
       handler: 'createCoffee',
       data: newCoffee,
-      body,
+      body: createCoffeeDto,
     };
   }
 
@@ -84,13 +86,19 @@ export class CoffeesController {
    */
   @Patch(':id')
   @HttpCode(HttpStatus.OK)
-  async updateCoffee(@Param('id') id: string, @Body() body) {
-    const updatedCoffee = await this.coffeesService.updateCoffee(id, body);
+  async updateCoffee(
+    @Param('id') id: string,
+    @Body() updateCoffeeDto: UpdateCoffeeDto,
+  ) {
+    const updatedCoffee = await this.coffeesService.updateCoffee(
+      id,
+      updateCoffeeDto,
+    );
     return {
       handler: 'updateCoffee',
       data: updatedCoffee,
       id,
-      body,
+      body: updateCoffeeDto,
     };
   }
 

@@ -71,3 +71,14 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+
+
+### TIPS
+
+dto - Data Transfer Objects, описание типов данных, пока не понятно для чего отдельные папки для entities и dto, возможно в entities описываются типы данных которые исползуются внутри проекта, а в dto, типы данных которые передаются извне, с клиента
+
+свойства в dto помечаются как readonly, чтобы нельзя было модифицировать то, что приходит с клиента
+
+в CreateCoffeeDto все свойства обязательные, в UpdateCoffeeDto все свойства опциональные

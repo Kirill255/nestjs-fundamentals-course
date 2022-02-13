@@ -32,15 +32,15 @@ export class CoffeesService {
     return coffee;
   }
 
-  async createCoffee(body: any) {
-    this.coffees.push(body);
-    return body;
+  async createCoffee(createCoffeeDto: any) {
+    this.coffees.push(createCoffeeDto);
+    return createCoffeeDto;
   }
 
-  async updateCoffee(id: string, body: any) {
+  async updateCoffee(id: string, updateCoffeeDto: any) {
     const coffee = await this.getOneCoffee(id);
     if (!coffee) return {};
-    const updatedCoffee = Object.assign({}, coffee, body);
+    const updatedCoffee = Object.assign({}, coffee, updateCoffeeDto);
     return updatedCoffee;
   }
 

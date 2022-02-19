@@ -20,6 +20,10 @@ export class Coffee {
   brand: string;
 
   @JoinTable()
-  @ManyToMany((type) => Flavor, (flavor) => flavor.coffees)
-  flavors: string[];
+  @ManyToMany(
+    (type) => Flavor, // хз
+    (flavor) => flavor.coffees, // ссылается на поле flavor.coffees
+    { cascade: true }, // будет заполнять таблицу flavors соответствующими вкусами при создании сущности coffee (insert, update)
+  )
+  flavors: Flavor[];
 }

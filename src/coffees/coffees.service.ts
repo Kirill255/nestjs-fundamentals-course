@@ -25,11 +25,13 @@ export class CoffeesService {
     private readonly coffeeRepository: Repository<Coffee>,
   ) {}
   async getAllCoffees(offset: string | number, limit: string | number) {
-    return this.coffeeRepository.find();
+    return this.coffeeRepository.find({ relations: ['flavors'] });
   }
 
   async getOneCoffee(id: string) {
-    const coffee = await this.coffeeRepository.findOne(Number(id));
+    const coffee = await this.coffeeRepository.findOne(Number(id), {
+      relations: ['flavors'],
+    });
     if (!coffee) {
       // throw new HttpException(
       //   `Coffee with id ${id} not found`,

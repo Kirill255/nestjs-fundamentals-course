@@ -1,0 +1,10 @@
+version: '3.4'
+services:
+  db:
+    image: postgres:11.9
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: testtesttest
+      POSTGRES_DB: nestjs-fundamentals-course

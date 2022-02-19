@@ -82,3 +82,7 @@ dto - Data Transfer Objects, описание типов данных, пока 
 свойства в dto помечаются как readonly, чтобы нельзя было модифицировать то, что приходит с клиента
 
 в CreateCoffeeDto все свойства обязательные, в UpdateCoffeeDto все свойства опциональные
+
+db
+
+`npm install --save @nestjs/typeorm typeorm pg`

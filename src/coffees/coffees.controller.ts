@@ -14,6 +14,7 @@ import {
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -26,14 +27,15 @@ export class CoffeesController {
    */
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getAllCoffees(@Query() query) {
-    const { offset, limit } = query;
-    const allCoffees = await this.coffeesService.getAllCoffees(offset, limit);
+  async getAllCoffees(@Query() paginationQueryDto: PaginationQueryDto) {
+    const allCoffees = await this.coffeesService.getAllCoffees(
+      paginationQueryDto,
+    );
     return {
       handler: 'getAllCoffees',
       data: allCoffees,
-      offset,
-      limit,
+      offset: paginationQueryDto.offset,
+      limit: paginationQueryDto.limit,
     };
   }
 

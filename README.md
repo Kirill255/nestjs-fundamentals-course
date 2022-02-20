@@ -98,3 +98,71 @@ Nest is [MIT licensed](LICENSE).
 > `transform: true` can automatically transform payloads to be objects typed according to their DTO classes
 
 `transform: true` tells Nest to return the newly created class instance from the pie. `enableImplicitConversion` tells `class-transformer` to look at the data from emitted from typescript's `emitDecoratorMetadata` flag to figure out what type a property should be, insteead of needing to use things like `@Type(() => Number)` or `@Transform(({ value }) => JSON.parse(value))` for booleans
+
+> migrations
+
+создать `ormconfig.js` с указанием полей entities, migrations, migrationsDir
+
+с помощью typeorm cli и npx можно сгенерировать шаблон для миграции `npx typeorm migration:create -n CoffeRefactoring`
+
+по пути `/src/migration/1645391244715-CoffeRefactoring.ts` будет создан шаблон миграции
+
+```
+import {MigrationInterface, QueryRunner} from "typeorm";
+
+export class CoffeRefactoring1645391244715 implements MigrationInterface {
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+  }
+
+}
+```
+
+написать миграцию
+
+затем нужно запустить команду `npm run build`, будет сгенерированна папка dist, из которой typeorm cli при миграции возьмёт нужные ей файлы указанные в `ormconfig.js`
+
+запуск миграции `npx typeorm migration:run`
+
+откат мирграции `npx typeorm migration:revert`
+
+
+можно сгенерировать миграцию из изменений в модели
+
+меняем модель, например добавляем новый столбец
+
+```
+@Column({ nullable: true })
+description: string;
+```
+
+генерируем новую папку dist `npm run build`
+
+и запускаем генерацию миграции `npx typeorm migration:generate -n SchemaSync`
+
+по итогу получим файл `/src/migration/1645393287586-SchemaSync.ts`
+
+```
+import { MigrationInterface, QueryRunner } from 'typeorm';
+
+export class SchemaSync1645393287586 implements MigrationInterface {
+  name = 'SchemaSync1645393287586';
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "coffee" ADD "description" character varying`,
+      undefined,
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `ALTER TABLE "coffee" DROP COLUMN "description"`,
+      undefined,
+    );
+  }
+}
+```

@@ -16,6 +16,10 @@ export class Coffee {
   @Column()
   name: string;
 
+  // было добавлено для примера генерации миграции из изменений в модели
+  // @Column({ nullable: true })
+  // description: string;
+
   @Column()
   brand: string;
 

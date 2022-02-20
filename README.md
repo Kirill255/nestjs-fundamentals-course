@@ -77,12 +77,24 @@ Nest is [MIT licensed](LICENSE).
 
 ### TIPS
 
-dto - Data Transfer Objects, описание типов данных, пока не понятно для чего отдельные папки для entities и dto, возможно в entities описываются типы данных которые исползуются внутри проекта, а в dto, типы данных которые передаются извне, с клиента
+> dto - Data Transfer Objects
+
+описание типов данных, пока не понятно для чего отдельные папки для entities и dto, возможно в entities описываются типы данных которые исползуются внутри проекта, а в dto, типы данных которые передаются извне, с клиента
 
 свойства в dto помечаются как readonly, чтобы нельзя было модифицировать то, что приходит с клиента
 
 в CreateCoffeeDto все свойства обязательные, в UpdateCoffeeDto все свойства опциональные
 
-db
+> db
 
 `npm install --save @nestjs/typeorm typeorm pg`
+
+> https://discord.com/channels/520622812742811698/520649487924985885/945017429543772232
+>
+> Hi, what exactly does `transformOptions.enableImplicitConversion = true` option do?
+> why transform: true not enough?
+>
+> from doc https://docs.nestjs.com/techniques/validation#transform-payload-objects
+> `transform: true` can automatically transform payloads to be objects typed according to their DTO classes
+
+`transform: true` tells Nest to return the newly created class instance from the pie. `enableImplicitConversion` tells `class-transformer` to look at the data from emitted from typescript's `emitDecoratorMetadata` flag to figure out what type a property should be, insteead of needing to use things like `@Type(() => Number)` or `@Transform(({ value }) => JSON.parse(value))` for booleans

@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Injectable, Module, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
@@ -48,6 +48,7 @@ export class CoffeeBrandsFactory {
       useFactory: (brandsFactory: CoffeeBrandsFactory) =>
         brandsFactory.create(),
       inject: [CoffeeBrandsFactory], // в inject указываем класс, который будет передан в useFactory, при этом для чего-то этот класс нужно отдельно указывать в качестве провайдера, см выше
+      // scope: Scope.TRANSIENT, // scope также можно указать в кастомном провайдере
     },
 
     {

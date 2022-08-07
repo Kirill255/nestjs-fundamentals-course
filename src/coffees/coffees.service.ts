@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  Scope,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
@@ -15,7 +16,10 @@ import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { ASYNC_COFFEE_BRANDS, COFFEE_BRANDS } from './coffees.constants';
 
-@Injectable()
+// @Injectable() // как синглтон, то есть в одном экземпляре на всё приложение, может кэшироваться, в 95% кейсов используется именно синглтон
+// @Injectable({ scope: Scope.DEFAULT }) // вроде это тоже самое, только явно указан параметр
+// @Injectable({ scope: Scope.REQUEST }) // инстанс создаётся на каждый запрос и после уничтожается
+@Injectable({ scope: Scope.TRANSIENT }) // создаётся по инстансу на каждый импортируемый модуль
 export class CoffeesService {
   // private coffees: Coffee[] = [
   //   {
@@ -34,6 +38,8 @@ export class CoffeesService {
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // теперь через переменную coffeeBrands мы имеем доступ к значению которое передали провайдеру COFFEE_BRANDS, а именно доступ к массиву ['buddy brew', 'nescafe']
     @Inject(ASYNC_COFFEE_BRANDS) asyncCoffeeBrands: string[],
   ) {
+    // так как мы указали scope TRANSIENT, то консоль лог 'CoffeesService instantiated' будет вызван дважды, вернее сервис CoffeesService будет создан дважды, по разу для каждого импортируещего модуля, то есть для каждого импортируещего модуля будет создан своя выделенная копия сервиса
+    console.log('CoffeesService instantiated');
     console.log(coffeeBrands);
     console.log(asyncCoffeeBrands);
   }

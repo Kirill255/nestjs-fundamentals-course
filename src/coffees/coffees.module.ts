@@ -5,8 +5,9 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
+import { COFFEE_BRANDS } from './coffees.constants';
 
-class MockCoffeesService {}
+// class MockCoffeesService {}
 
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
@@ -18,11 +19,15 @@ class MockCoffeesService {}
   //     useClass: CoffeesService,
   //   },
   // ],
+  // providers: [
+  //   {
+  //     provide: CoffeesService,
+  //     useValue: new MockCoffeesService(), // теперь все кто импортит к себе CoffeesService, будет получать экземпляр класса MockCoffeesService
+  //   },
+  // ],
   providers: [
-    {
-      provide: CoffeesService,
-      useValue: new MockCoffeesService(), // теперь все кто импортит к себе CoffeesService, будет получать экземпляр класса MockCoffeesService
-    },
+    CoffeesService,
+    { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] }, // провайдер, не основанный на классах, в данном примере мы используем строку 'COFFEE_BRANDS', чтобы заинжектить такой провайдер нужно использовать декоратор @Inject(), пример @Inject('COFFEE_BRANDS') coffeeBrands: string[],
   ],
   exports: [CoffeesService],
 })

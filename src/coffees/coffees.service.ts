@@ -13,7 +13,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
+import { ASYNC_COFFEE_BRANDS, COFFEE_BRANDS } from './coffees.constants';
 
 @Injectable()
 export class CoffeesService {
@@ -32,8 +32,10 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // теперь через переменную coffeeBrands мы имеем доступ к значению которое передали провайдеру COFFEE_BRANDS, а именно доступ к массиву ['buddy brew', 'nescafe']
+    @Inject(ASYNC_COFFEE_BRANDS) asyncCoffeeBrands: string[],
   ) {
     console.log(coffeeBrands);
+    console.log(asyncCoffeeBrands);
   }
   async getAllCoffees(paginationQueryDto: PaginationQueryDto) {
     const { offset, limit } = paginationQueryDto;

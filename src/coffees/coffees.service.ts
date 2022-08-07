@@ -18,8 +18,8 @@ import { ASYNC_COFFEE_BRANDS, COFFEE_BRANDS } from './coffees.constants';
 
 // @Injectable() // как синглтон, то есть в одном экземпляре на всё приложение, может кэшироваться, в 95% кейсов используется именно синглтон
 // @Injectable({ scope: Scope.DEFAULT }) // вроде это тоже самое, только явно указан параметр
-// @Injectable({ scope: Scope.REQUEST }) // инстанс создаётся на каждый запрос и после уничтожается
-@Injectable({ scope: Scope.TRANSIENT }) // создаётся по инстансу на каждый импортируемый модуль
+@Injectable({ scope: Scope.REQUEST }) // инстанс создаётся на каждый запрос и после уничтожается
+// @Injectable({ scope: Scope.TRANSIENT }) // создаётся по инстансу на каждый импортируемый модуль
 export class CoffeesService {
   // private coffees: Coffee[] = [
   //   {

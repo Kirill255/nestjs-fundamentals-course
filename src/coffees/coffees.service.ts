@@ -54,11 +54,18 @@ export class CoffeesService {
     // );
     // console.log(databaseHost);
 
-    const databaseHost = configService.get<string>(
-      'database.host',
-      'localhost',
-    );
-    console.log(databaseHost);
+    // const databaseHost = configService.get<string>(
+    //   'database.host',
+    //   'localhost',
+    // );
+    // console.log(databaseHost);
+
+    // сейчас ConfigModule в модуле CoffeesModule подключён в режиме forFeature
+    const coffeesConfig = configService.get('coffees');
+    console.log(coffeesConfig); // { foo: 'bar' }
+
+    const coffeesConfigFoo = configService.get('coffees.foo');
+    console.log(coffeesConfigFoo); // 'bar'
   }
   async getAllCoffees(paginationQueryDto: PaginationQueryDto) {
     const { offset, limit } = paginationQueryDto;

@@ -9,7 +9,11 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      // envFilePath: '.development.env', // по-дэфолту конфиг смотрит в корень проекта в файл .env, с помощью envFilePath можно изменить месторасположение и название файла из которого читать env переменные
+      // envFilePath: ['.env.development.local', '.env.development'], // можно указать пути к нескольким конфигам, если переменная будет найдена в обоих конфигах, то приоритет будет за первым в списке конфигом
+      // ignoreEnvFile: true, // игнорировать .env файл, например чтобы прокидывать значения переменных в рантайме, при запуске скриптов
+    }),
     CoffeesModule,
     // пока не понял в чём разница, pg работает и так и так
     // TypeOrmModule.forRoot({

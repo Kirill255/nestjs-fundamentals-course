@@ -15,6 +15,7 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { ASYNC_COFFEE_BRANDS, COFFEE_BRANDS } from './coffees.constants';
+import { ConfigService } from '@nestjs/config';
 
 // @Injectable() // как синглтон, то есть в одном экземпляре на всё приложение, может кэшироваться, в 95% кейсов используется именно синглтон
 // @Injectable({ scope: Scope.DEFAULT }) // вроде это тоже самое, только явно указан параметр
@@ -37,11 +38,21 @@ export class CoffeesService {
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // теперь через переменную coffeeBrands мы имеем доступ к значению которое передали провайдеру COFFEE_BRANDS, а именно доступ к массиву ['buddy brew', 'nescafe']
     @Inject(ASYNC_COFFEE_BRANDS) asyncCoffeeBrands: string[],
+    private readonly configService: ConfigService,
   ) {
     // так как мы указали scope TRANSIENT, то консоль лог 'CoffeesService instantiated' будет вызван дважды, вернее сервис CoffeesService будет создан дважды, по разу для каждого импортируещего модуля, то есть для каждого импортируещего модуля будет создан своя выделенная копия сервиса
     console.log('CoffeesService instantiated');
     console.log(coffeeBrands);
     console.log(asyncCoffeeBrands);
+
+    // const databaseHost = configService.get<string>('DATABASE_HOST');
+    // console.log(databaseHost);
+
+    const databaseHost = configService.get<string>(
+      'DATABASE_HOST',
+      'localhost', // вторым аргументом можно передать значение по-умолчанию, если вдруг запрашиваемой переменной не будет в конфиге
+    );
+    console.log(databaseHost);
   }
   async getAllCoffees(paginationQueryDto: PaginationQueryDto) {
     const { offset, limit } = paginationQueryDto;

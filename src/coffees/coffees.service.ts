@@ -15,7 +15,8 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { ASYNC_COFFEE_BRANDS, COFFEE_BRANDS } from './coffees.constants';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 // @Injectable() // как синглтон, то есть в одном экземпляре на всё приложение, может кэшироваться, в 95% кейсов используется именно синглтон
 // @Injectable({ scope: Scope.DEFAULT }) // вроде это тоже самое, только явно указан параметр
@@ -38,7 +39,11 @@ export class CoffeesService {
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[], // теперь через переменную coffeeBrands мы имеем доступ к значению которое передали провайдеру COFFEE_BRANDS, а именно доступ к массиву ['buddy brew', 'nescafe']
     @Inject(ASYNC_COFFEE_BRANDS) asyncCoffeeBrands: string[],
-    private readonly configService: ConfigService,
+    // private readonly configService: ConfigService,
+
+    // A reasonable alternative is to inject the coffees namespace directly. This allows us to benefit from strong typing https://docs.nestjs.com/techniques/configuration#configuration-namespaces
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     // так как мы указали scope TRANSIENT, то консоль лог 'CoffeesService instantiated' будет вызван дважды, вернее сервис CoffeesService будет создан дважды, по разу для каждого импортируещего модуля, то есть для каждого импортируещего модуля будет создан своя выделенная копия сервиса
     console.log('CoffeesService instantiated');
@@ -61,11 +66,14 @@ export class CoffeesService {
     // console.log(databaseHost);
 
     // сейчас ConfigModule в модуле CoffeesModule подключён в режиме forFeature
-    const coffeesConfig = configService.get('coffees');
-    console.log(coffeesConfig); // { foo: 'bar' }
+    // const coffeesConfig = configService.get('coffees');
+    // console.log(coffeesConfig); // { foo: 'bar' }
 
-    const coffeesConfigFoo = configService.get('coffees.foo');
-    console.log(coffeesConfigFoo); // 'bar'
+    // const coffeesConfigFoo = configService.get('coffees.foo');
+    // console.log(coffeesConfigFoo); // 'bar'
+
+    console.log(coffeesConfiguration); // { foo: 'bar' }
+    console.log(coffeesConfiguration.foo); // 'bar'
   }
   async getAllCoffees(paginationQueryDto: PaginationQueryDto) {
     const { offset, limit } = paginationQueryDto;

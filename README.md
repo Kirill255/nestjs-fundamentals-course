@@ -171,6 +171,16 @@ export class SchemaSync1645393287586 implements MigrationInterface {
 
 нужно доустанавливать отдельно `npm i @nestjs/config`
 
+> joi
+
+устанавливаем пакет joi в dependencies(ps: пакет `@hapi/joi` deprecated)
+
+`npm i joi`
+
+а также устанавливаем в devDependencies, расширенный пакет с типами
+
+`npm i -D @types/hapi__joi`
+
 ## Other
 
 https://courses.nestjs.com/

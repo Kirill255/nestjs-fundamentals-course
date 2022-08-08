@@ -48,9 +48,15 @@ export class CoffeesService {
     // const databaseHost = configService.get<string>('DATABASE_HOST');
     // console.log(databaseHost);
 
+    // const databaseHost = configService.get<string>(
+    //   'DATABASE_HOST',
+    //   'localhost', // вторым аргументом можно передать значение по-умолчанию, если вдруг запрашиваемой переменной не будет в конфиге
+    // );
+    // console.log(databaseHost);
+
     const databaseHost = configService.get<string>(
-      'DATABASE_HOST',
-      'localhost', // вторым аргументом можно передать значение по-умолчанию, если вдруг запрашиваемой переменной не будет в конфиге
+      'database.host',
+      'localhost',
     );
     console.log(databaseHost);
   }

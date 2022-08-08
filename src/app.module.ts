@@ -35,6 +35,10 @@ import appConfig from './config/app.config';
     //   logging: true,
     // }),
     // пока не понял в чём разница, pg работает и так и так
+    // кажется понял, переменные берутся из конфига(ConfigModule), который подгружает их из .env файла или какого-то кастомного конфига, дак вот в случае синхронного forRoot очень важен порядок импорта модулей
+    // сначала конфиг, после TypeOrm, вот так imports: [ConfigModule, TypeOrmModule.forRoot]
+    // если сделаем наоборот, вот так imports: [TypeOrmModule.forRoot, ConfigModule], то в нашем случае, база не сможет подключиться так как переменные будут ещё недоступны(undefined)
+    // с forRootAsync порядок не имеет значения, всё будет подгружаться и инициализироваться нормально
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'postgres',

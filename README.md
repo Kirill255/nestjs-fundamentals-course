@@ -167,6 +167,10 @@ export class SchemaSync1645393287586 implements MigrationInterface {
 }
 ```
 
+> @nestjs/config
+
+нужно доустанавливать отдельно `npm i @nestjs/config`
+
 ## Other
 
 https://courses.nestjs.com/

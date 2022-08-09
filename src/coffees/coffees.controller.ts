@@ -11,6 +11,8 @@ import {
   Post,
   Query,
   Res,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -19,6 +21,8 @@ import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 
+// @UsePipes(ValidationPipe) // а так pipe регестрируется на уровне контроллера
+// @UsePipes(new ValidationPipe({})) // если нужно передать какие-то специфичные настройки
 @Controller('coffees')
 export class CoffeesController {
   constructor(
@@ -35,6 +39,7 @@ export class CoffeesController {
    * @param query
    * @returns
    */
+  // @UsePipes(ValidationPipe) // регистрация pipe'а на уровне конкретного роута/хэндлера
   @Get()
   @HttpCode(HttpStatus.OK)
   async getAllCoffees(@Query() paginationQueryDto: PaginationQueryDto) {

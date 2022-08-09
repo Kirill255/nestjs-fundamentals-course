@@ -181,6 +181,12 @@ export class SchemaSync1645393287586 implements MigrationInterface {
 
 `npm i -D @types/hapi__joi`
 
+> Filters, Pipes, Guards, Interceptors
+
+Регистрация возможна на уровне модуля, контроллера, роута/хэндлера или глобально. Все методы названы одноимённо, пример: app.useGlobalFilters, app.useGlobalGuards, UsePipes, UseInterceptors и т.д.
+
+Валидация(про другие фичи не знаю) также возможна даже на уровне отдельного параметра, например: @Body(ValidationPipe)
+
 ## Other
 
 https://courses.nestjs.com/

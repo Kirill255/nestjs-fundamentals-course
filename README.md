@@ -187,6 +187,10 @@ export class SchemaSync1645393287586 implements MigrationInterface {
 
 Валидация(про другие фичи не знаю) также возможна даже на уровне отдельного параметра, например: @Body(ValidationPipe)
 
+> Guards
+
+Должны вовращать true - всё в порядке(авторизация пройдена) или false - 403 Forbidden
+
 ## Other
 
 https://courses.nestjs.com/

@@ -11,6 +11,7 @@ import {
   Post,
   Query,
   Res,
+  SetMetadata,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { Public } from 'src/common/decorators/public.decorator';
 
 // @UsePipes(ValidationPipe) // а так pipe регестрируется на уровне контроллера
 // @UsePipes(new ValidationPipe({})) // если нужно передать какие-то специфичные настройки
@@ -40,6 +42,8 @@ export class CoffeesController {
    * @returns
    */
   // @UsePipes(ValidationPipe) // регистрация pipe'а на уровне конкретного роута/хэндлера
+  // @SetMetadata('isPublic', true) // вместо этого мы создали Public декоратор
+  @Public()
   @Get()
   @HttpCode(HttpStatus.OK)
   async getAllCoffees(@Query() paginationQueryDto: PaginationQueryDto) {

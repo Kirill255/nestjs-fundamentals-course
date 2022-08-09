@@ -21,7 +21,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalGuards(new ApiKeyGuard());
+  // app.useGlobalGuards(new ApiKeyGuard()); // теперь мы не можем зарегестрировать ApiKeyGuard глобально через useGlobalGuards, так как теперь в ApiKeyGuard используется DI, то есть в конструкторе этого класса мы импортируем пару зависимостей, поэтому мы всё инкапсулировали в модуль CommonModule, который добавили в AppModule, по сути ApiKeyGuard доступен также по всему приложению
   await app.listen(3000);
 }
 bootstrap();
